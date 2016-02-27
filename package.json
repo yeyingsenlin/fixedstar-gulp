@@ -1,0 +1,20 @@
+{
+  "name": "fixedstar-gulp",
+  "version": "0.0.9",
+  "description": "这是一个让新手简单上手 gulp 打包的轻量封装。",
+  "author": {
+    "name": "夜影森林",
+    "email": "2823857417@qq.com",
+    "url": "http://www.aisocool.com/"
+  },
+  "files": [
+    "index.js",
+    "lib"
+  ],
+  "dependencies": {},
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yeyingsenlin/fixedstar-gulp.git"
+  }
+}
