@@ -1,4 +1,4 @@
-test
+test/
 
 
 
@@ -6,7 +6,7 @@ test
 #-------------------
 
 
-#.gitignore
+# .gitignore
 
 # webstorm
 *.idea
