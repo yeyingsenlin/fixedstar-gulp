@@ -1,16 +1,9 @@
 "use strict";
 
-//var fsGulp = require('fixedstar-gulp');
-var fsGulp = require('/Users/leon/work/fixedstar/fixedstar-gulp/index');
+var fsGulp = require('fixedstar-gulp');
 var autoprefixer = require('gulp-autoprefixer');
 
-/**
- * 函数名
- *
- * @param name:string             需要生成的场景模块名称
- * @param root:string             发布后的根目录路径，主要用于加载模块外的共用文件
- *
- */
+
 module.exports = function (name, cfg, root, web) {
 
 	var isGlobal = !!root;

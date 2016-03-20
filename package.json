@@ -1,6 +1,6 @@
 {
   "name": "fixedstar-gulp",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "这是一个让新手简单上手 gulp 打包的轻量封装。",
   "author": {
     "name": "夜影森林",
