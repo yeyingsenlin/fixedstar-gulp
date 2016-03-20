@@ -96,7 +96,7 @@ var fsGulp = {
                 isLivereload = true;
             }
         }
-        if( isWatch && isLivereload ) ary.unshift('listen_watch');
+        if( isWatch ) ary.unshift('listen_watch');
         var allTask = tool.asyncTask(ary);
         gulp.task(name, allTask);
     }
