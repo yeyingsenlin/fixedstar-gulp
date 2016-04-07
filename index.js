@@ -1,7 +1,6 @@
 /**
  * Created by 夜影 on 2015/5/17.
  */
-
 var gulp = require('gulp'),
     gutil = require('gulp-util'),
     tool = require('./lib/tool.js'),
