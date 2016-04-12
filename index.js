@@ -102,5 +102,5 @@ var fsGulp = {
     }
 };
 
-
+fsGulp.gulpContext = require('./gulp-context')(fsGulp);
 module.exports = fsGulp;
