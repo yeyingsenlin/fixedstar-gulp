@@ -9,6 +9,7 @@
   },
   "files": [
     "index.js",
+    "gulp-context.js",
     "lib"
   ],
   "dependencies": {},
