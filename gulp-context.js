@@ -11,26 +11,21 @@ function gulpContext(fsGulp) {
 	 * @param root:string             发布后的根目录路径，主要用于加载模块外的共用文件
 	 *
 	 */
-	return function (name, cfg, root, web) {
-
-		var isGlobal = !!root;
+	function createContextTask(name, cfg, root, web) {
 
 		var path = {
 			root: root || './',
-			web: web || './build/web/',
+			web: web || './build/web/'
 		};
 
-		var config = fsGulp.tool.merge({}, cfg);
-		fsGulp.tool.merge(config, {
-			// 这里root给ejs用，有root要按真实发布的路径结构，没有root说明是在场景内部生成
-			root: isGlobal ? '../assets/' : '../../../../build/assets/',
+		var config = fsGulp.tool.merge({
 			name: name,
 			auther: '夜影森林',
 			homepage: 'http://www.aisocool.com/',
 			description: 'aisocool'
-		});
+		}, cfg);
 
-		var perfix = config.name + '-context-';
+		var perfix = name + '-context-';
 
 		//----------------------------------------------------
 
@@ -114,7 +109,7 @@ function gulpContext(fsGulp) {
 		fsGulp.createTask(perfix + 'watch-html', 'watch', {
 			src: [
 				path.root + 'views/pages/**/*.ejs',
-				path.root + '../../view_modules/pages/**/*',
+				path.root + '../../cdrv_modules/views/pages/**/*',
 				path.root + '../../views/pages/**/*.ejs'
 			],
 			tasks: [perfix + 'ejs', perfix + 'html', perfix + 'livereload']
@@ -123,7 +118,7 @@ function gulpContext(fsGulp) {
 		fsGulp.createTask(perfix + 'watch-css', 'watch', {
 			src: [
 				path.root + 'views/styles/**/*',
-				path.root + '../../view_modules/styles/**/*',
+				path.root + '../../cdrv_modules/views/styles/**/*',
 				path.root + '../../views/styles/**/*'
 			],
 			tasks: [perfix + 'sass', perfix + 'css', perfix + 'livereload']
@@ -133,13 +128,13 @@ function gulpContext(fsGulp) {
 			src: [
 				'!' + path.root + '{gulpfile,gulp}.js',
 				path.root + '*',
-				path.root + 'datas/**/*',
-				path.root + 'roles/**/*',
+				path.root + '{contexts,datas,roles}/**/*',
 				path.root + 'views/scripts/**/*',
-				path.root + '../../view_modules/scripts/**/*',
+				path.root + '../../cdrv_modules/{contexts,datas,roles}/**/*',
+				path.root + '../../cdrv_modules/views/scripts/**/*',
+				path.root + '../../{contexts,datas,roles}/**/*',
 				path.root + '../../views/scripts/**/*',
-				path.root + '../../datas/**/*',
-				path.root + '../../roles/**/*'
+				'!' + path.root + '../../{gulpfile,gulp}.js'
 			],
 			tasks: [perfix + 'js', perfix + 'html', perfix + 'livereload']
 		});
@@ -152,28 +147,48 @@ function gulpContext(fsGulp) {
 		//----------------------------------------------------
 
 		var taskAry = ['sass', 'js', 'css', 'copy', 'ejs', 'html'];
-		var wtaskAry = ['watch-html', 'watch-css', 'watch-js', 'watch-assets'];
+		var watchTaskAry = ['watch-html', 'watch-css', 'watch-js', 'watch-assets'];
 
 		taskAry.map(function (value, index, array) {
 			return array[index] = perfix + value;
 		});
-		wtaskAry.map(function (value, index, array) {
+		watchTaskAry.map(function (value, index, array) {
 			return array[index] = perfix + value;
 		});
 
 
-		fsGulp.concatTask(config.name, ['env-d', perfix + 'clean'].concat(taskAry));
+		fsGulp.concatTask(name, ['env-d', perfix + 'clean'].concat(taskAry));
 
-		fsGulp.concatTask(config.name + '-p', ['env-p', perfix + 'clean'].concat(taskAry));
+		fsGulp.concatTask(name + '-p', ['env-p', perfix + 'clean'].concat(taskAry));
 
-		fsGulp.concatTask(config.name + '-w', ['env-d', perfix + 'clean'].concat(taskAry, wtaskAry));
+		fsGulp.concatTask(name + '-w', ['env-d', perfix + 'clean'].concat(taskAry, watchTaskAry));
 
-		fsGulp.concatTask(config.name + '-pw', ['env-p', perfix + 'clean'].concat(taskAry, wtaskAry));
+		fsGulp.concatTask(name + '-pw', ['env-p', perfix + 'clean'].concat(taskAry, watchTaskAry));
 
-		// isGlobal use
-		return taskAry;
+		return {
+			taskAry:taskAry,
+			watchTaskAry:watchTaskAry
+		};
 
-	};
+	}
+
+	// 收集所有场景的任务
+	function createContextTasks(contexts, cfg, root, web) {
+		if( !Array.isArray(contexts) ) return createContextTask(contexts, cfg, root, web);
+		var name, ret, taskAry=[], watchTaskAry=[];
+		for (var i = 0; i < contexts.length; i++ ) {
+			name = contexts[i];
+			ret = createContextTask(name, cfg, root + name + '/', web + name + '/');
+			taskAry = taskAry.concat(ret.taskAry);
+			watchTaskAry = watchTaskAry.concat(ret.watchTaskAry);
+		}
+		return {
+			taskAry:taskAry,
+			watchTaskAry:watchTaskAry
+		};
+	}
+
+	return createContextTasks;
 }
 
 module.exports = gulpContext;
