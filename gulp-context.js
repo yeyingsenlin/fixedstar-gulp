@@ -109,7 +109,7 @@ function gulpContext(fsGulp) {
 		fsGulp.createTask(perfix + 'watch-html', 'watch', {
 			src: [
 				path.root + 'views/pages/**/*.ejs',
-				path.root + '../../cdrv_modules/views/pages/**/*',
+				path.root + '../../vcrd_modules/views/pages/**/*',
 				path.root + '../../views/pages/**/*.ejs'
 			],
 			tasks: [perfix + 'ejs', perfix + 'html', perfix + 'livereload']
@@ -118,7 +118,7 @@ function gulpContext(fsGulp) {
 		fsGulp.createTask(perfix + 'watch-css', 'watch', {
 			src: [
 				path.root + 'views/styles/**/*',
-				path.root + '../../cdrv_modules/views/styles/**/*',
+				path.root + '../../vcrd_modules/views/styles/**/*',
 				path.root + '../../views/styles/**/*'
 			],
 			tasks: [perfix + 'sass', perfix + 'css', perfix + 'livereload']
@@ -130,8 +130,8 @@ function gulpContext(fsGulp) {
 				path.root + '*',
 				path.root + '{contexts,datas,roles}/**/*',
 				path.root + 'views/scripts/**/*',
-				path.root + '../../cdrv_modules/{contexts,datas,roles}/**/*',
-				path.root + '../../cdrv_modules/views/scripts/**/*',
+				path.root + '../../vcrd_modules/{contexts,datas,roles}/**/*',
+				path.root + '../../vcrd_modules/views/scripts/**/*',
 				path.root + '../../{contexts,datas,roles}/**/*',
 				path.root + '../../views/scripts/**/*',
 				'!' + path.root + '../../{gulpfile,gulp}.js'
